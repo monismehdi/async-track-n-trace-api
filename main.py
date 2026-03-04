@@ -2,82 +2,83 @@ from fastapi import FastAPI, HTTPException, status
 from scalar_fastapi import  get_scalar_api_reference
 from typing import Any
 from .schemas import ShipmentCreate, ShipmentRead, ShipmentUpdate
+from .database import save_shipments, shipments_db
 
 app = FastAPI()
     
-shipments_db = {
-    12345: {
-        "shipment_id": 12345,
-        "shipment_title": "Wooden Table",
-        "shipment_weight": 20.5,
-        "shipment_description": "A sturdy wooden table perfect for dining rooms.",
-        "shipment_status": "In Transit"
-    },
-    12346: {
-        "shipment_id": 12346,
-        "shipment_title": "Office Chair",
-        "shipment_weight": 15.0,
-        "shipment_description": "An ergonomic office chair with adjustable height.",
-        "shipment_status": "Delivered"
-    },
-    12347: {
-        "shipment_id": 12347,
-        "shipment_title": "Laptop",
-        "shipment_weight": 2.5,
-        "shipment_description": "A high-performance laptop suitable for gaming and work.",
-        "shipment_status": "Shipped"
-    },
-    12348: {
-        "shipment_id": 12348,
-        "shipment_title": "Bookshelf",
-        "shipment_weight": 30.0,
-        "shipment_description": "A spacious bookshelf made of solid wood.",
-        "shipment_status": "Processing"
-    },
-    12349: {
-        "shipment_id": 12349,
-        "shipment_title": "Desk Lamp",
-        "shipment_weight": 1.0,
-        "shipment_description": "A modern LED desk lamp with adjustable brightness.",
-        "shipment_status": "Out for Delivery"
-    },
-    12351: { 
-        "shipment_id": 12351,
-        "shipment_title": "Smartphone",
-        "shipment_weight": 0.2,
-        "shipment_description": "A latest model smartphone with advanced features.",
-        "shipment_status": "Delivered"
-    },
-    12352: {
-        "shipment_id": 12352,
-        "shipment_title": "Headphones",
-        "shipment_weight": 0.5,
-        "shipment_description": "Noise-cancelling over-ear headphones with high-fidelity sound.",
-        "shipment_status": "In Transit"
-    },
-    12353: {
-        "shipment_id": 12353,
-        "shipment_title": "Coffee Maker",
-        "shipment_weight": 2.0,
-        "shipment_description": "A programmable coffee maker with a built-in grinder.",
-        "shipment_status": "Shipped"
-    },
-    12354: {
-        "shipment_id": 12354,
-        "shipment_title": "Fitness Tracker",
-        "shipment_weight": 0.3,
-        "shipment_description": "A waterproof fitness tracker with heart rate monitoring.",
-        "shipment_status": "Processing"
-    },
-    12355: {
-        "shipment_id": 12355,
-        "shipment_title": "Gaming Console",
-        "shipment_weight": 5.0,
-        "shipment_description": "A next-gen gaming console with immersive graphics.",
-        "shipment_status": "Out for Delivery"
-    }
+# shipments_db = {
+#     12345: {
+#         "id": 12345,
+#         "shipment_title": "Wooden Table",
+#         "shipment_weight": 20.5,
+#         "shipment_description": "A sturdy wooden table perfect for dining rooms.",
+#         "shipment_status": "In Transit"
+#     },
+#     12346: {
+#         "id": 12346,
+#         "shipment_title": "Office Chair",
+#         "shipment_weight": 15.0,
+#         "shipment_description": "An ergonomic office chair with adjustable height.",
+#         "shipment_status": "Delivered"
+#     },
+#     12347: {
+#         "id": 12347,
+#         "shipment_title": "Laptop",
+#         "shipment_weight": 2.5,
+#         "shipment_description": "A high-performance laptop suitable for gaming and work.",
+#         "shipment_status": "Shipped"
+#     },
+#     12348: {
+#         "id": 12348,
+#         "shipment_title": "Bookshelf",
+#         "shipment_weight": 30.0,
+#         "shipment_description": "A spacious bookshelf made of solid wood.",
+#         "shipment_status": "Processing"
+#     },
+#     12349: {
+#         "id": 12349,
+#         "shipment_title": "Desk Lamp",
+#         "shipment_weight": 1.0,
+#         "shipment_description": "A modern LED desk lamp with adjustable brightness.",
+#         "shipment_status": "Out for Delivery"
+#     },
+#     12351: { 
+#         "id": 12351,
+#         "shipment_title": "Smartphone",
+#         "shipment_weight": 0.2,
+#         "shipment_description": "A latest model smartphone with advanced features.",
+#         "shipment_status": "Delivered"
+#     },
+#     12352: {
+#         "id": 12352,
+#         "shipment_title": "Headphones",
+#         "shipment_weight": 0.5,
+#         "shipment_description": "Noise-cancelling over-ear headphones with high-fidelity sound.",
+#         "shipment_status": "In Transit"
+#     },
+#     12353: {
+#         "id": 12353,
+#         "shipment_title": "Coffee Maker",
+#         "shipment_weight": 2.0,
+#         "shipment_description": "A programmable coffee maker with a built-in grinder.",
+#         "shipment_status": "Shipped"
+#     },
+#     12354: {
+#         "id": 12354,
+#         "shipment_title": "Fitness Tracker",
+#         "shipment_weight": 0.3,
+#         "shipment_description": "A waterproof fitness tracker with heart rate monitoring.",
+#         "shipment_status": "Processing"
+#     },
+#     12355: {
+#         "id": 12355,
+#         "shipment_title": "Gaming Console",
+#         "shipment_weight": 5.0,
+#         "shipment_description": "A next-gen gaming console with immersive graphics.",
+#         "shipment_status": "Out for Delivery"
+#     }
         
-}
+# }
 
 @app.get("/")
 def read_root():
@@ -111,9 +112,10 @@ def submit_shipment(shipment: ShipmentCreate) -> dict[str, int]:
     # Add to shipments dict
     shipments_db[new_id] = {
         **shipment.model_dump(),
-        "shipment_id": new_id,
+        "id": new_id,
         "shipment_status": "Placed"
     }
+    save_shipments()
     # Return id for later use
     return {"id": new_id}
 
@@ -175,15 +177,17 @@ def update_shipment(id: int, shipment_title: str = None, shipment_weight: float 
 #     return shipments_db[id]
 
 @app.patch("/shipment", response_model=ShipmentRead)
-def patch_shipment(id: int, body: ShipmentUpdate) -> dict[str, Any]:
+def patch_shipment(id: int, body: ShipmentUpdate):
     if id not in shipments_db:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Shipment ID {id} not found"
         )
-    shipment_to_update = shipments_db[id]
-    shipment_to_update.update(body)
-    shipments_db[id] = shipment_to_update
+    # shipment_to_update = shipments_db[id]
+    # shipment_to_update.update(body)
+    # shipments_db[id] = shipment_to_update
+    shipments_db[id].update(body.model_dump(exclude_none=True))
+    save_shipments()
     return shipments_db[id]
 
 @app.delete("/shipment")

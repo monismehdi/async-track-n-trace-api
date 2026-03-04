@@ -1,0 +1,79 @@
+[
+    {
+        "id": 12345,
+        "shipment_title": "Wooden Table",
+        "shipment_weight": 20.5,
+        "shipment_description": "A sturdy wooden table perfect for dining rooms.",
+        "shipment_status": "In Transit"
+    },
+    {
+        "id": 12346,
+        "shipment_title": "Office Chair",
+        "shipment_weight": 15.0,
+        "shipment_description": "An ergonomic office chair with adjustable height.",
+        "shipment_status": "Delivered"
+    },
+    {
+        "id": 12347,
+        "shipment_title": "Laptop",
+        "shipment_weight": 2.5,
+        "shipment_description": "A high-performance laptop suitable for gaming and work.",
+        "shipment_status": "Shipped"
+    },
+    {
+        "id": 12348,
+        "shipment_title": "Bookshelf",
+        "shipment_weight": 30.0,
+        "shipment_description": "A spacious bookshelf made of solid wood.",
+        "shipment_status": "Processing"
+    },
+    {
+        "id": 12349,
+        "shipment_title": "Desk Lamp",
+        "shipment_weight": 1.0,
+        "shipment_description": "A modern LED desk lamp with adjustable brightness.",
+        "shipment_status": "Out for Delivery"
+    },
+    {
+        "id": 12351,
+        "shipment_title": "Smartphone",
+        "shipment_weight": 0.2,
+        "shipment_description": "A latest model smartphone with advanced features.",
+        "shipment_status": "Delivered"
+    },
+    {
+        "id": 12352,
+        "shipment_title": "Headphones",
+        "shipment_weight": 0.5,
+        "shipment_description": "Noise-cancelling over-ear headphones with high-fidelity sound.",
+        "shipment_status": "In Transit"
+    },
+    {
+        "id": 12353,
+        "shipment_title": "Coffee Maker",
+        "shipment_weight": 2.0,
+        "shipment_description": "A programmable coffee maker with a built-in grinder.",
+        "shipment_status": "Shipped"
+    },
+    {
+        "id": 12354,
+        "shipment_title": "Fitness Tracker",
+        "shipment_weight": 0.3,
+        "shipment_description": "A waterproof fitness tracker with heart rate monitoring.",
+        "shipment_status": "Processing"
+    },
+    {
+        "id": 12355,
+        "shipment_title": "Gaming Console",
+        "shipment_weight": 5.0,
+        "shipment_description": "A next-gen gaming console with immersive graphics.",
+        "shipment_status": "Out for Delivery"
+    },
+    {
+        "shipment_title": "Sofa-cum-bed",
+        "shipment_weight": 22.0,
+        "shipment_description": "a beautiful sofa-cum-bed for multipurpose",
+        "id": 12356,
+        "shipment_status": "In Transit"
+    }
+]
