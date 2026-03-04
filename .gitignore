@@ -1,0 +1,28 @@
+# --- Python & FastAPI Defaults ---
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+copy_of_main.py
+
+# --- Virtual Environments ---
+# It's critical to ignore these so you don't push massive dependency folders
+.vtenv/
+vtenv/
+env/
+ENV/
+
+# --- Environment Variables & Secrets ---
+# NEVER push your .env files to GitHub
+.env
+.env.*
+.secrets
+*.local
+
+# --- Database ---
+# If you are using local SQLite for development
+*.sqlite3
+*.db
